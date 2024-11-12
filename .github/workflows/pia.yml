@@ -46,7 +46,7 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add surfshark_ips.csv new_surfshark_ips.csv
+          git add pia_ips.csv new_pia_ips.csv
           git diff-index --quiet HEAD || git commit -m "[AUTO] update IoCs $(date '+%Y-%m-%d %H:%M:%S')"
           
       - name: Push changes
