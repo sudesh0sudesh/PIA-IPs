@@ -40,7 +40,7 @@ def resolve_domains_to_subnets(domains, resolver):
         print(f"Resolving domain: {domain}")
         try:
             temp_ips=set()
-            for i in range(0,100):
+            for i in range(0,18):
                 answers = resolver.resolve(domain, 'A')
                 for ip in answers:
                     temp_ips.add(str(ip))
