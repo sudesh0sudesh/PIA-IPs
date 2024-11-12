@@ -27,13 +27,16 @@ jobs:
           pip install requests
           sudo apt install zmap
 
-      - name: Run surfshark subnets
+      - name: Gather PIA subnets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python pia.py
 
+      - name: Generate custom blocklist 
+        run: python blocklist_generator.py
+
       - name: Run zmap
-        run: sudo zmap  -M udp -p 1198 --probe-args=file:openvpn_1194.pkt -w pia_subnet.txt -r 128 -O csv --output-filter="success = 1" -o 'pia_ips_temp.csv'
+        run: sudo zmap  -M udp -p 1198 --probe-args=file:openvpn_1194.pkt -w pia_subnet.txt -b custom_blocklist.txt -r 128 -O csv --output-filter="success = 1" -o 'pia_ips_temp.csv'
 
       - name: Clean up zmap output
         run: python pia_ip_cleanup.py
