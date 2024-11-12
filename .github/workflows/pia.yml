@@ -30,13 +30,13 @@ jobs:
       - name: Run surfshark subnets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python surfshark.py
+        run: python pia.py
 
       - name: Run zmap
         run: sudo zmap  -M udp -p 1198 --probe-args=file:openvpn_1194.pkt -w pia_subnet.txt -r 128 -O csv --output-filter="success = 1" -o 'pia_ips_temp.csv'
 
       - name: Clean up zmap output
-        run: python surfshark_ip_cleanup.py
+        run: python pia_ip_cleanup.py
 
 
       - name: Configure Git
