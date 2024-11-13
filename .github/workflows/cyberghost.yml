@@ -33,10 +33,10 @@ jobs:
         run: python pia.py
 
       - name: Generate custom blocklist 
-        run: python blocklist_generator.py
+        run: python cyberghost_blocklist_generator.py
 
       - name: CyberGhost Scan
-        run: sudo zmap  -M udp -p 443 --probe-args=file:openvpn_1194.pkt -w pia_subnet.txt -r 128 -O csv --output-filter="success = 1" -o 'cyberghost_ips_temp.csv'
+        run: sudo zmap  -M udp -p 443 --probe-args=file:openvpn_1194.pkt -w pia_subnet.txt -b custom_blocklist.txt -r 128 -O csv --output-filter="success = 1" -o 'cyberghost_ips_temp.csv'
         
       - name: Clean up zmap output(C)
         run: python cyberghost_ip_cleanup.py
