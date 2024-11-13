@@ -35,11 +35,18 @@ jobs:
       - name: Generate custom blocklist 
         run: python blocklist_generator.py
 
-      - name: Run zmap
+      - name: PIA scan
         run: sudo zmap  -M udp -p 1198 --probe-args=file:openvpn_1194.pkt -w pia_subnet.txt -b custom_blocklist.txt -r 128 -O csv --output-filter="success = 1" -o 'pia_ips_temp.csv'
-
-      - name: Clean up zmap output
+      
+     
+      - name: Clean up zmap output(P)
         run: python pia_ip_cleanup.py
+
+      - name: CyberGhost Scan
+        run: sudo zmap  -M udp -p 443 --probe-args=file:openvpn_1194.pkt -w pia_subnet.txt -b custom_blocklist.txt  -r 128 -O csv --output-filter="success = 1" -o 'cyberghost_ips_temp.csv'
+        
+      - name: Clean up zmap output(C)
+        run: python cyberghost_ip_cleanup.py
 
 
       - name: Configure Git
@@ -49,7 +56,7 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add pia_ips.csv new_pia_ips.csv
+          git add pia_ips.csv new_pia_ips.csv cyberghost_ips.csv new_cyberghost_ips.csv
           git diff-index --quiet HEAD || git commit -m "[AUTO] update IoCs $(date '+%Y-%m-%d %H:%M:%S')"
           
       - name: Push changes
