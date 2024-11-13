@@ -43,7 +43,7 @@ jobs:
         run: python pia_ip_cleanup.py
 
       - name: Express Subnet detail Generation
-        run: python pia_subnet_CSV.py
+        run: python PIA_subnet_CSV.py
 
       - name: Configure Git
         run: |
