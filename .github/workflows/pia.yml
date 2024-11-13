@@ -2,7 +2,7 @@ name: PIA IP Updater
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every 1 hours
+    - cron: '0 */3 * * *'  # Runs every 2 hours
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -65,10 +65,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-
-      - name: Force push if previous push failed
-        if: failure()
-        run: |
-          git push --force
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
