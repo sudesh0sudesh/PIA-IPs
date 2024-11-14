@@ -1,4 +1,4 @@
-# PIA IP Repository
+# PIA and CyberGhost IP Repository
 
 
 ## Overview
