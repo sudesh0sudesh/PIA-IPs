@@ -1,0 +1,30 @@
+name: PIA TLSX
+
+on:
+  schedule:
+    - cron: '0 0 * 1 *'  # Runs every 2 hours
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  tlsx:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Setup Go environment
+        uses: actions/setup-go@v5.1.0
+        with:
+          go-version: 'stable'
+
+      - name: SubFinder Installation
+        run: |
+          git clone https://github.com/projectdiscovery/tlsx.git; \
+          cd tlsx/cmd/tlsx; \
+          go build; \
+          mv tlsx /usr/local/bin/; \
+          tlsx -version;
+
+      
