@@ -28,7 +28,7 @@ jobs:
           tlsx -version;
       - name: TLSX execution
         run: |
-          tlsx -l pia.txt -so -p 1337 -c 1000 -cec 20
+          tlsx -l pia.txt -so -p 1337 -c 1000 -cec 30
         
 
       
