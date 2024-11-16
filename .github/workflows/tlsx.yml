@@ -2,7 +2,7 @@ name: PIA TLSX
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs every 2 hours
+    - cron: '0 0 * * *'  # Runs every 24 hours
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
