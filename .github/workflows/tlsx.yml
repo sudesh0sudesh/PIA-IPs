@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: '3.12'
         
       - name: Setup Go environment
         uses: actions/setup-go@v5.1.0
@@ -26,9 +31,42 @@ jobs:
           go build; \
           mv tlsx /usr/local/bin/; \
           tlsx -version;
+
+      - name: CSV to TXT
+        run: |
+          python csv_txt.py
       - name: TLSX execution
         run: |
-          tlsx -l pia.txt -so -p 1337 -c 1000 -cec 10
+          tlsx -l pia.txt -so -p 1337 -c 1000 -cec 10 -j -o pia-out.json
+          
+      - name: IP cleanup
+        run: |
+          python cert_parser.py
+          python cyberghost_ip_cleanup.py
+          python pia_ip_cleanup.py
+
+        
+        
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "sudesh@sudesh.com"
+          git config --local user.name "github-actions[bot]"
+
+
+      - name: Commit changes
+        run: |
+          git add pia_ips.csv new_pia_ips.csv cyberghost_ips.csv new_cyberghost_ips.csv
+          git diff-index --quiet HEAD || git commit -m "[AUTO] update Express VPN Hostname $(date '+%Y-%m-%d %H:%M:%S')"
+          
+      - name: Push changes
+        id: push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+
         
 
       
